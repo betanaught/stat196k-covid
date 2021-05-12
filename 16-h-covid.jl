@@ -15,3 +15,6 @@ SZ = 500, 500
 scatter(hesitant.geo_value, hesitant.mean_value)
 # scatter!(xticks = ([1:length(hesitant.geo_value)], hesitant.geo_value))
 # bar(hesitant)
+
+using GLM
+lm1 = lm(@formula(mean_state_hesitancy ~ mean_state_income), state_income_hesitancy)

@@ -44,14 +44,6 @@ The quick-and-dirty CI calculation comes from the value +/- (1.96)(SE), so here 
 (11.5368532 + (1.96)(0.0708588), 11.5368532 - (1.96)(0.0708588))
 ```
 
-```
-(11.675736448, 11.397969951999999)
-```
-
-
-
-
-
 ## Counting
 
 8 pts
@@ -129,7 +121,7 @@ GROUP BY geo_value
 ORDER BY mean_value DESC
 ```
 I was curious to investigate the signal 'smoothed_hesitancy_reason_dislike_vaccines' which was a measurmente of respondents who were hesitant to receive a covid vaccination because they do not like vaccines. I plotted the mean hesitancy by state to see how the states rank, and I saw that AK has the highest by a large margin:
-```julia
+```julia 
 using DataFrames
 using Plots
 # using StatsPlots
@@ -147,9 +139,6 @@ scatter(hesitant.geo_value, hesitant.mean_value, legend = false)
 # scatter!(xticks = ([1:length(hesitant.geo_value)], hesitant.geo_value))
 # bar(hesitant)
 ```
-
-
-
 
 ### 2
 
@@ -195,39 +184,10 @@ scatter(state_income_hesitancy.mean_state_income,
         state_income_hesitancy.mean_state_hesitancy,
         legend = false)
 ```
-
-
-
 Quick and dirty LM, I would prefer to take the raw survey data and fit a model with the states as random effects
 
 ```julia
 using GLM
 lm1 = lm(@formula(mean_state_hesitancy ~ mean_state_income), state_income_hesitancy)
 ```
-
-```
-StatsModels.TableRegressionModel{GLM.LinearModel{GLM.LmResp{Vector{Float64}
-}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix
-{Float64}}}}, Matrix{Float64}}
-
-mean_state_hesitancy ~ 1 + mean_state_income
-
-Coefficients:
-───────────────────────────────────────────────────────────────────────────
-────────
-                        Coef.  Std. Error      t  Pr(>|t|)    Lower 95%   U
-pper 95%
-───────────────────────────────────────────────────────────────────────────
-────────
-(Intercept)        9.96531     0.814511    12.23    <1e-15   8.32763     11
-.603
-mean_state_income  2.14564e-5  1.55034e-5   1.38    0.1728  -9.71519e-6   5
-.2628e-5
-───────────────────────────────────────────────────────────────────────────
-────────
-```
-
-
-
-
 Almost no evidence of an extremely small effect of income on the mean hesitancy!
